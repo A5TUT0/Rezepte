@@ -1,30 +1,32 @@
 # Rezepte
 
-Rezepte:
-vor 1. Spring
+## Rezepte: vor 1. Spring
 
-Daten:
-● Name des Rezeptes
-● Inhalte der Speisen (z. B. Steinpilze, getrocknet, 50 g; Wasser, kochend, 1 lt)
-● Benötigte Hilfsmittel (z. B. Kuchenblech, Backofen usw.)
-● Vorgehen (z. B. x und y mit dem Mixer mischen)
-● Dauer (Total und einzelne Schritte)
-● für wieviele Personen berechnet (z. B. für 4 Personen)
+### Daten:
 
-Funktionen:
-● einfügen (neues Rezept)
-● löschen (bestehende Rezepte)
-● ändern (anpassen eines Rezeptes z. B. andere Menge)
-● sortieren (aufwärts und abwärts)
-● filtrieren (z. B. Rezepte mit Pilze)
-● suchen (z. B. nach Namen eines Rezeptes)
+- **Name des Rezeptes**
+- **Inhalte der Speisen** (z. B. Steinpilze, getrocknet, 50 g; Wasser, kochend, 1 lt)
+- **Benötigte Hilfsmittel** (z. B. Kuchenblech, Backofen usw.)
+- **Vorgehen** (z. B. x und y mit dem Mixer mischen)
+- **Dauer** (Total und einzelne Schritte)
+- **Für wieviele Personen berechnet** (z. B. für 4 Personen)
 
-nicht funktionale Anforderungen:
-● Java-Applikation für PC (Linux, Windows, MacOS)
-● Selbsterklärende Oberfläche, kein Handbuch nötig
+### Funktionen:
 
-GUI: ja
+- **Einfügen** (neues Rezept)
+- **Löschen** (bestehende Rezepte)
+- **Ändern** (anpassen eines Rezeptes z. B. andere Menge)
+- **Sortieren** (aufwärts und abwärts)
+- **Filtrieren** (z. B. Rezepte mit Pilzen)
+- **Suchen** (z. B. nach Namen eines Rezeptes)
 
-DB: personal
+### Nicht funktionale Anforderungen:
 
-DB: art egal
+- **Java-Applikation für PC** (Linux, Windows, MacOS)
+- **Selbsterklärende Oberfläche**, kein Handbuch nötig
+
+### GUI: ja
+
+### DB: personal
+
+### DB: Art egal
