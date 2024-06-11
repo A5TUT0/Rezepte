@@ -1,3 +1,7 @@
+Um Text in Markdown einzufügen, können Sie Ihren Text auf dieser Seite einfügen und er wird konvertiert: [Clipboard to Markdown](https://euangoddard.github.io/clipboard2markdown/)
+
+Oder Sie können auch Notion herunterladen, Ihren Text dort einfügen und dann kopieren. Es wird im Markdown-Format kopiert.
+
 # Rezepte
 
 ## Rezepte: vor 1. Spring
