@@ -30,3 +30,20 @@
 ### DB: personal
 
 ### DB: Art egal
+
+---------------------------------------------------------------------------------------------------------------------
+
+# Sprint Backlog
+
+## Sprint-Ziele
+1. [Sprint-Ziel 1]
+2. [Sprint-Ziel 2]
+3. [Sprint-Ziel 3]
+
+## To Do
+- **[Aufgabe 1]**
+  - Beschreibung: [Beschreibung der Aufgabe]
+  - Priorität: [Priorität der Aufgabe]
+  - Akzeptanzkriterien: [Akzeptanzkriterien der Aufgabe]
+  - Zeitaufwand: [Geschätzter Zeitaufwand]
+  - Zuständiger Entwickler: [Name]
