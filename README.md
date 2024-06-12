@@ -11,7 +11,7 @@
 - **Für wieviele Personen berechnet** 
 
 ### Funktionen:
-Sie können das funktionen in der order Java\RecipeApplication\src\Recipes\Recipies.java
+Sie können das funktionen in der order Java\RecipeApplication\src\Recipes\Recipes.java
 - **Einfügen**
 - **Löschen** 
 - **Ändern** 
