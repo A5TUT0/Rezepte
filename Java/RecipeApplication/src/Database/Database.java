@@ -5,6 +5,9 @@
 package Database;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.ResultSet;  
+import java.sql.Statement;
+import java.sql.Connection;
 import java.util.ArrayList;
 
 
@@ -21,21 +24,29 @@ public class Database {
     }
     
     private boolean connectDatabase() {
-        try (var conn = DriverManager.getConnection(url)) {
-            if (conn != null) {
-                var meta = conn.getMetaData();
-                createDBStructure();
-                return true;
-            }
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(this.url);
+            createDBStructure(connection);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
         }
-        return false;
+        return true;
     }
     
-    private boolean createDBStructure() {
-        
+    private boolean createDBStructure(Connection connection) {
+        String sql = "CREATE TABLE IF NOT EXISTS warehouses ("
+                + "	id INTEGER PRIMARY KEY,"
+                + "	name text NOT NULL,"
+                + "	capacity REAL"
+                + ");";
+        try (var stmt = connection.createStatement()) {
+            
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
     
     public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
