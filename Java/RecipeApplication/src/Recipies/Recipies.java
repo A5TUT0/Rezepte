@@ -1,28 +1,18 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package Recipies;
 
-import java.util.ArrayList; // import the ArrayList class
-
-/**
- *
- * @author Noah
- */
-
+import java.util.ArrayList;
 
 public class Recipies {
-    
+
     private static int autoIncrementId = 0;
     private int id;
     private String Name = "";
     private String Description = "";
-    private ArrayList<String> Ingredients = new ArrayList<String>(); // Create an Arraylist obejt
-    private int Duration = "";
-    private int Persons = "";
+    private ArrayList<String> Ingredients = new ArrayList<String>();
+    private int Duration;
+    private int Persons;
 
-    public void Recipies(String Name, String Description, int Duration, int Persons) {
+    public Recipies(String Name, String Description, int Duration, int Persons) {
         this.id = ++autoIncrementId;
         this.Name = Name;
         this.Description = Description;
@@ -30,27 +20,29 @@ public class Recipies {
         this.Persons = Persons;
     }
 
-    private void insrt(Name, Description, Duration) {
-
+    public void insert(String Name, String Description, int Duration) {
+        // Implementación
     }
 
-    private void delete(id) {
-
+    public void delete(int id) {
+        // Implementación
     }
 
-    private void replace(Name, Description, Duration) {
-
+    public void replace(String Name, String Description, int Duration) {
+        // Implementación
     }
 
-    private void filter(Ingredients) {
-
+    public void filter(Ingredients) {
+        // Implementación
     }
 
-    private void search(Name) {
-
+    public void search(String Name) {
+        // Implementación
     }
 
-    private void sort(Name, Ingredients, Persons) {
-
+    // On sortCriteria we cat chose between "ID" or "Name" & ascending(True) or descending(False).
+    public void sort(String sortCriteria, boolean ascending, ) {  
+        // Implementación
     }
+
 }
