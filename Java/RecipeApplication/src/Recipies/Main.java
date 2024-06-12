@@ -9,5 +9,8 @@ package Recipies;
  * @author Noah
  */
 public class Main {
+    public static void Recipies(String[] args) {
+        
+    }
     
 }
