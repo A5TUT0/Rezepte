@@ -1,5 +1,3 @@
-Um Text in Markdown einzufügen, können Sie Ihren Text auf dieser Seite einfügen und er wird konvertiert: [Clipboard to Markdown](https://euangoddard.github.io/clipboard2markdown/)
-
 # Rezepte
 
 ## Rezepte: vor 1. Spring
