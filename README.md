@@ -2,8 +2,6 @@ Um Text in Markdown einzufügen, können Sie Ihren Text auf dieser Seite einfüg
 
 Oder Sie können auch Notion herunterladen, Ihren Text dort einfügen und dann kopieren. Es wird im Markdown-Format kopiert.
 
-https://computerschule-my.sharepoint.com/:w:/g/personal/adrian_jasaroska_ict_csbe_ch/EW_FvVq6iPRLswaqNhbHqQABtAmKPWMnr5x70pOOJjl1lw?e=KZEc4N
-
 # Rezepte
 
 ## Rezepte: vor 1. Spring
