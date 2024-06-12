@@ -36,13 +36,10 @@ public class Database {
     }
     
     private boolean createDBStructure(Connection connection) {
-        String sql = "CREATE TABLE IF NOT EXISTS warehouses ("
-                + "	id INTEGER PRIMARY KEY,"
-                + "	name text NOT NULL,"
-                + "	capacity REAL"
-                + ");";
-        try (var stmt = connection.createStatement()) {
-            
+        try (var statement = connection.createStatement()) {
+            ScriptRunner scriptRunner = new ScriptRunner(connection, true, true);
+            scriptRunner.runScript(new java.io.FileReader("../../../../DB/CRUD/RecipeTablesCreate.sql"));
+            //statement.execute(sqlCreateTables);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
