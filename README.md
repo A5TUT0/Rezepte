@@ -34,30 +34,3 @@ Oder Sie können auch Notion herunterladen, Ihren Text dort einfügen und dann k
 ### DB: personal
 
 ### DB: Art egal
-
----------------------------------------------------------------------------------------------------------------------
-
-# User Story
-
-## Beschreibung
-
-- **Als:** [Rolle/Benutzer]
-- **Möchte ich:** [Ziel/Anforderung]
-- **Sodass:** [Nutzen/Grund
-
----------------------------------------------------------------------------------------------------------------------
-
-# Sprint Backlog
-
-## Sprint-Ziele
-1. [Sprint-Ziel 1]
-2. [Sprint-Ziel 2]
-3. [Sprint-Ziel 3]
-
-## To Do
-- **[Aufgabe 1]**
-  - Beschreibung: [Beschreibung der Aufgabe]
-  - Priorität: [Priorität der Aufgabe]
-  - Akzeptanzkriterien: [Akzeptanzkriterien der Aufgabe]
-  - Zeitaufwand: [Geschätzter Zeitaufwand]
-  - Zuständiger Entwickler: [Name]
