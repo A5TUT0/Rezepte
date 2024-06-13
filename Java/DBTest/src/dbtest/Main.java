@@ -5,6 +5,7 @@
 package dbtest;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 /**
  *
  * @author C.Augustiny_Work
@@ -12,16 +13,12 @@ import java.sql.SQLException;
 public class Main {
     public static void main(String args[]) {
         DB db = new DB();
-        /*String url = "jdbc:sqlite:my.db";
-
-        try (var conn = DriverManager.getConnection(url)) {
-            if (conn != null) {
-                var meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }*/
+        ArrayList<String> ingredients = new ArrayList();
+        ArrayList<String> utensiles = new ArrayList();
+        ArrayList<String> steps = new ArrayList();
+        ingredients.add("Wasser");
+        steps.add("Wasser einfüllen");
+        utensiles.add("Glas");
+        db.addRecipe("Wasser", ingredients, utensiles, steps, 0, 1);
     }
 }
