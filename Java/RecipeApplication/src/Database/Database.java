@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Database;
+import java.io.FileNotFoundException;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;  
@@ -35,9 +36,10 @@ public class Database {
         return true;
     }
     
-    private boolean createDBStructure(Connection connection) {
+    private boolean createDBStructure(Connection connection) throws FileNotFoundException {
         try (var statement = connection.createStatement()) {
-            ScriptRunner scriptRunner = new ScriptRunner(connection, true, true);
+            ScriptRunner scriptRunner;
+            scriptRunner = new ScriptRunner(connection, true, true);
             scriptRunner.runScript(new java.io.FileReader("../../../../DB/CRUD/RecipeTablesCreate.sql"));
             //statement.execute(sqlCreateTables);
         } catch (SQLException e) {
