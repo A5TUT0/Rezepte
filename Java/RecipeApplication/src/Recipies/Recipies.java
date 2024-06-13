@@ -32,7 +32,7 @@ public class Recipies {
         // Implementación
     }
 
-    public void filter(Ingredients) {
+    public void filter(ArrayList<String> Ingredients) {
         // Implementación
     }
 
@@ -41,7 +41,7 @@ public class Recipies {
     }
 
     // On sortCriteria we cat chose between "ID" or "Name" & ascending(True) or descending(False).
-    public void sort(String sortCriteria, boolean ascending, ) {  
+    public void sort(String sortCriteria, boolean ascending ) {  
         // Implementación
     }
 
