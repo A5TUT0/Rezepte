@@ -23,6 +23,7 @@ public class DB {
     private boolean connectDatabase() {
         Connection connection = null;
         try {
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
             connection = DriverManager.getConnection(this.url);
             createDBStructure(connection);
         } catch (SQLException e) {
