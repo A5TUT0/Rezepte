@@ -51,8 +51,8 @@ public class Database {
         return true;
     }
     
-    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
+    /*public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
         
-    }
+    }*/
     
 }

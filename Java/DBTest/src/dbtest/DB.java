@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author C.Augustiny_Work
  */
 public class DB {
-    String url = "jdbc:sqlite:my.recipes";
+    String url = "jdbc:sqlite:rezepte.db";
     
     public DB() {
         connectDatabase();
