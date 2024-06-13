@@ -19,6 +19,7 @@ public class Main {
         ingredients.add("Wasser");
         steps.add("Wasser einfüllen");
         utensiles.add("Glas");
-        db.addRecipe("Wasser", ingredients, utensiles, steps, 0, 1);
+        //db.addRecipe("Wasser", ingredients, utensiles, steps, 0, 1);
+        System.out.println(db.selectRecipe("id", "1"));
     }
 }
