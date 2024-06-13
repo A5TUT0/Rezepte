@@ -1,5 +1,9 @@
 package Recipies;
 
+/**
+ *
+ * @author Noah
+ */
 import java.util.ArrayList;
 
 public class Recipies {
@@ -41,7 +45,7 @@ public class Recipies {
     }
 
     // On sortCriteria we cat chose between "ID" or "Name" & ascending(True) or descending(False).
-    public void sort(String sortCriteria, boolean ascending ) {  
+    public void sort(String sortCriteria, boolean ascending) {
         // Implementación
     }
 
