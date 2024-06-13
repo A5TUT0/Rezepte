@@ -1,36 +1,28 @@
-Um Text in Markdown einzufügen, können Sie Ihren Text auf dieser Seite einfügen und er wird konvertiert: [Clipboard to Markdown](https://euangoddard.github.io/clipboard2markdown/)
-
-Oder Sie können auch Notion herunterladen, Ihren Text dort einfügen und dann kopieren. Es wird im Markdown-Format kopiert.
-
 # Rezepte
 
 ## Rezepte: vor 1. Spring
 
 ### Daten:
-
 - **Name des Rezeptes**
-- **Inhalte der Speisen** (z. B. Steinpilze, getrocknet, 50 g; Wasser, kochend, 1 lt)
-- **Benötigte Hilfsmittel** (z. B. Kuchenblech, Backofen usw.)
-- **Vorgehen** (z. B. x und y mit dem Mixer mischen)
-- **Dauer** (Total und einzelne Schritte)
-- **Für wieviele Personen berechnet** (z. B. für 4 Personen)
+- **Inhalte der Speisen**
+- **Benötigte Hilfsmittel** 
+- **Vorgehen** 
+- **Dauer** 
+- **Für wieviele Personen berechnet** 
 
 ### Funktionen:
-
-- **Einfügen** (neues Rezept)
-- **Löschen** (bestehende Rezepte)
-- **Ändern** (anpassen eines Rezeptes z. B. andere Menge)
-- **Sortieren** (aufwärts und abwärts)
-- **Filtrieren** (z. B. Rezepte mit Pilzen)
-- **Suchen** (z. B. nach Namen eines Rezeptes)
+Sie können das funktionen in der order Java\RecipeApplication\src\Recipes\Recipes.java
+- **Einfügen**
+- **Löschen** 
+- **Ändern** 
+- **Sortieren** 
+- **Filtrieren** 
+- **Suchen** 
 
 ### Nicht funktionale Anforderungen:
-
 - **Java-Applikation für PC** (Linux, Windows, MacOS)
 - **Selbsterklärende Oberfläche**, kein Handbuch nötig
 
-### GUI: ja
-
-### DB: personal
-
-### DB: Art egal
+### GUI: NetBeans
+### DB: Personal, SQLite
+### 
