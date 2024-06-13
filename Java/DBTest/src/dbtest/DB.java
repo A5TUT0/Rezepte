@@ -33,21 +33,21 @@ public class DB {
     
     private boolean createDBStructure() {
         String recipeTable = "CREATE TABLE IF NOT EXISTS 'Recipes' ("
-                + "	'id' INTEGER PRIMARY KEY,"
+                + "	'id' INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	'name' text NOT NULL,"
                 + "	'duration' INTEGER,"
                 + "	'personAmount' INTEGER"
                 + ");";
         String ingredientsTable = "create table if not EXISTS \"Ingredients\" ("
-                + "	\"id\" int not NULL PRIMARY KEY,"
+                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null"
                 + ");";
         String utensilesTable = "create table if not exists \"Utensiles\" ("
-                + "	\"id\" int not NULL PRIMARY KEY,"
+                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null"
                 + ");";
         String stepsTable = "create table if not exists \"Steps\" ("
-                + "	\"id\" int not NULL PRIMARY KEY,"
+                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null,"
                 + "	\"description\" varchar(500)"
                 + ");";
@@ -119,4 +119,21 @@ public class DB {
             return null;
         }
     }
+   
+   public ArrayList<Object> getRecipeData(int id) {
+       try{
+            String query = "SELECT * FROM Recipes as r JOIN Recipes_Ingredients as ri on r.id = ri.recipe_id JOIN Utensiles_Recipes as ur on r.id = ur.recipe_id JOIN Steps_Recipes as sr on r.id = sr.recipe_id JOIN Steps as s on s.id = sr.step_id JOIN Utensiles as u on u.id = ur.utensile_id JOIN Ingredients as i on i.id = ri.ingredient_id WHERE r.id = " + id + ";";
+            ArrayList<Object> result = new ArrayList<Object>();
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                result.add(rs.getString("name"));
+                result.add(rs.getInt("id"));
+            }
+            return result;
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+            return null;
+        }
+   }
 }
