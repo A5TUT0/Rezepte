@@ -36,16 +36,19 @@ public class Database {
         return true;
     }
     
-    private boolean createDBStructure(Connection connection) throws FileNotFoundException {
+    private boolean createDBStructure(Connection connection) {
+        String sql = "CREATE TABLE IF NOT EXISTS warehouses ("
+                + "	id INTEGER PRIMARY KEY,"
+                + "	name text NOT NULL,"
+                + "	capacity REAL"
+                + ");";
         try (var statement = connection.createStatement()) {
-            ScriptRunner scriptRunner;
-            scriptRunner = new ScriptRunner(connection, true, true);
-            scriptRunner.runScript(new java.io.FileReader("../../../../DB/CRUD/RecipeTablesCreate.sql"));
-            //statement.execute(sqlCreateTables);
+            statement.execute(sql);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
         }
+        return true;
     }
     
     public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
