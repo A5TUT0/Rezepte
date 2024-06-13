@@ -16,7 +16,7 @@ public class Recipies {
     private ArrayList<String> ingredients = new ArrayList<String>();
     private int duration;
     private int persons;
-    private URL database =  / waiting / api / database.json;
+    private URL database =  / waiting / api / database;
 
     public Recipies(String name, String description, int duration, int persons, String database) {
         this.id = ++autoIncrementId;
