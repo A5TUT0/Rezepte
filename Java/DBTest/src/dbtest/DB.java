@@ -20,7 +20,6 @@ public class DB {
     }
     
     private boolean connectDatabase() {
-        this.connection = null;
         try {
             //Class.forName("com.mysql.jdbc.Driver").newInstance();
             this.connection = DriverManager.getConnection(this.url);
@@ -101,6 +100,22 @@ public class DB {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
+        }
+    }
+   
+   public ArrayList<Object> selectRecipe(String query) {
+        try{
+            ArrayList<Object> result = new ArrayList<Object>();
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()) {
+                result.add(rs.getString("name"));
+                result.add(rs.getInt("id"));
+            }
+            return result;
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+            return null;
         }
     }
 }
