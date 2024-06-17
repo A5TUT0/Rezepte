@@ -103,11 +103,11 @@ public class DB {
         }
     }
    
-   public ArrayList<Object> selectRecipe(String argument, String filter) {
+   public ArrayList<Object> getRecipeList(String argument, String filter) {
        try{
             String query = "SELECT * FROM Recipes WHERE \"" + argument + "\" = \"" + filter + "\";";
             ArrayList<Object> result = new ArrayList<Object>();
-            Statement stmt = connection.createStatement();
+            Statement stmt = this.connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
                 result.add(rs.getString("name"));
