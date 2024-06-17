@@ -1,9 +1,7 @@
 package Recipies;
 
+import Database.DB; // Importa la clase DB
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Recipies {
 
@@ -14,6 +12,7 @@ public class Recipies {
     private ArrayList<String> ingredients;
     private int duration; // in minutes
     private int persons;
+    private static DB database = new DB(); // Inicializa la conexión con la base de datos
     private static ArrayList<Recipies> recipesDatabase = new ArrayList<>();
 
     public Recipies(String name, String description, int duration, int persons, ArrayList<String> ingredients) {
@@ -23,62 +22,36 @@ public class Recipies {
         this.duration = duration;
         this.persons = persons;
         this.ingredients = new ArrayList<>(ingredients);
+
     }
 
     public static void insert(String name, String description, int duration, int persons, ArrayList<String> ingredients) {
         Recipies newRecipe = new Recipies(name, description, duration, persons, ingredients);
         recipesDatabase.add(newRecipe);
-    }
 
-    public static void delete(int id) {
-        recipesDatabase.removeIf(recipe -> recipe.id == id);
-    }
-
-    public static void replace(int id, String name, String description, int duration, int persons, ArrayList<String> ingredients) {
-        for (Recipies recipe : recipesDatabase) {
-            if (recipe.id == id) {
-                recipe.name = name;
-                recipe.description = description;
-                recipe.duration = duration;
-                recipe.persons = persons;
-                recipe.ingredients = new ArrayList<>(ingredients);
-                break;
-            }
+        boolean success = database.addRecipe(name, ingredients, new ArrayList<>(), new ArrayList<>(), duration, persons);
+        if (success) {
+            System.out.println("Recipe added successfully");
+        } else {
+            System.out.println("ERROR ON ADD A RECIPIE");
         }
     }
 
-    public static List<Recipies> filter(ArrayList<String> ingredients) {
-        return recipesDatabase.stream()
-                .filter(recipe -> recipe.ingredients.containsAll(ingredients))
-                .collect(Collectors.toList());
+    public static void delete(int id) {
     }
 
-    public static List<Recipies> search(String name) {
-        return recipesDatabase.stream()
-                .filter(recipe -> recipe.name.equalsIgnoreCase(name))
-                .collect(Collectors.toList());
+    public static void replace(int id, String name, String description, int duration, int persons, ArrayList<String> ingredients) {
+    }
+
+    public static void filter(ArrayList<String> ingredients) {
+    }
+
+    public static void search(String name) {
+
     }
 
     // On sortCriteria we can choose between "id" or "name" & ascending(True) or descending(False).
     public static void sort(String sortCriteria, boolean ascending) {
-        Comparator<Recipies> comparator;
-
-        switch (sortCriteria.toLowerCase()) {
-            case "id":
-                comparator = Comparator.comparingInt(recipe -> recipe.id);
-                break;
-            case "name":
-                comparator = Comparator.comparing(recipe -> recipe.name.toLowerCase());
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid sort criteria: " + sortCriteria);
-        }
-
-        if (!ascending) {
-            comparator = comparator.reversed();
-        }
-
-        recipesDatabase.sort(comparator);
     }
 
     @Override
