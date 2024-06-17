@@ -103,15 +103,26 @@ public class DB {
         }
     }
    
-   public ArrayList<Object> getRecipeList(String argument, String filter) {
+   public ArrayList<Object> getRecipeList(String argument, String filter, String sort, boolean ASC) {
+       String order;
+       String whereStatement = "WHERE " + argument + " = " + filter + " ";
        try{
-            String query = "SELECT * FROM Recipes WHERE \"" + argument + "\" = \"" + filter + "\";";
+           if(ASC == true) {
+               order= "ASC";
+           } else {
+               order = "DESC";
+           }
+           
+           if(argument.equals("") || filter.equals("")) {
+               whereStatement = "";
+           }
+            String query = "SELECT * FROM Recipes " + whereStatement + "ORDER BY \"" + sort + "\" " + order + ";";
             ArrayList<Object> result = new ArrayList<Object>();
             Statement stmt = this.connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
-                result.add(rs.getString("name"));
                 result.add(rs.getInt("id"));
+                result.add(rs.getString("name"));
             }
             return result;
         } catch(SQLException e) {
@@ -129,11 +140,16 @@ public class DB {
             while(rs.next()) {
                 result.add(rs.getString("name"));
                 result.add(rs.getInt("id"));
+                result.add(rs.getInt("personAmount"));
             }
             return result;
         } catch(SQLException e) {
             System.err.println(e.getMessage());
             return null;
         }
+   }
+   
+   public boolean updateData(String argument, String filter, String attribute, String value){
+       return true;
    }
 }
