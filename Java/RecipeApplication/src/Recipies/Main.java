@@ -12,4 +12,14 @@ import java.util.ArrayList;
  */
 public class Main {
 
+    public static void main(String[] args) {
+        // Crear ingredientes
+        ArrayList<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient("Tomato", "2", "None"));
+        ingredients.add(new Ingredient("Cheese", "100g", "None"));
+        ingredients.add(new Ingredient("Basil", "5 leaves", "None"));
+
+        // Insertar receta
+        Recipies.insert("Caprese Salad", "A simple Italian salad", 10, 2, ingredients);
+    }
 }

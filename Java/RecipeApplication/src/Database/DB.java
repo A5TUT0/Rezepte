@@ -35,20 +35,20 @@ public class DB {
     private boolean createDBStructure() {
         String recipeTable = "CREATE TABLE IF NOT EXISTS 'Recipes' ("
                 + "	'id' INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "	'name' text NOT NULL,"
+                + "	'name' text NOT NULL UNIQUE,"
                 + "	'duration' INTEGER,"
                 + "	'personAmount' INTEGER"
                 + ");";
         String ingredientsTable = "create table if not EXISTS \"Ingredients\" ("
-                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
+                + "	\"id\" INTEGER not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null"
                 + ");";
         String utensilesTable = "create table if not exists \"Utensiles\" ("
-                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
+                + "	\"id\" INTEGER not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null"
                 + ");";
         String stepsTable = "create table if not exists \"Steps\" ("
-                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
+                + "	\"id\" INTEGER not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null,"
                 + "	\"description\" varchar(500)"
                 + ");";
@@ -87,16 +87,70 @@ public class DB {
         return true;
     }
 
-    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
+    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<ArrayList<String>> steps, int duration, int personAmount) {
+        String ingredientsValues = "VALUES ";
+        String utensilesValues = "VALUES ";
+        String stepValues = "VALUES ";
+        // Ingredients
+        for (int i = 0; i <= ingredients.size() - 1; i++) {
+            ingredientsValues += "(\"" + ingredients.get(i) + "\")";
+            if (i != ingredients.size() - 1) {
+                ingredientsValues += ", ";
+            } else {
+                ingredientsValues += ";";
+            }
+        }
+
+        // Utensiles
+        for (int i = 0; i <= utensiles.size() - 1; i++) {
+            utensilesValues += "(\"" + utensiles.get(i) + "\")";
+            if (i != steps.size() - 1) {
+                utensilesValues += ", ";
+            } else {
+                utensilesValues += ";";
+            }
+        } // Steps
+        for (int i = 0; i <= steps.size() - 1; i++) {
+            stepValues += "(\"" + steps.get(i).get(0) + "\", \"" + steps.get(i).get(1) + "\")";
+            if (i != steps.size() - 1) {
+                stepValues += ", ";
+            } else {
+                stepValues += ";";
+            }
+        }
         String insertRecipe = "INSERT INTO \"Recipes\" (\"name\", \"duration\", \"personAmount\") VALUES (\"" + name + "\", \"" + duration + "\", \"" + personAmount + "\");";
-        /*String insertSteps = "";
-        String insertIngredients = "";
-        String insertUtensiles = "";*/
+        String insertIngredients = "INSERT INTO \"Ingredients\" (\"name\") " + ingredientsValues;
+        String insertUtensiles = "INSERT INTO \"Utensiles\" (\"name\") " + utensilesValues;
+        String insertSteps = "INSERT INTO \"Steps\" (\"name\", \"description\") " + stepValues;
         try (var statement = this.connection.createStatement()) {
             statement.execute(insertRecipe);
-            /*statement.execute(insertSteps);
+            statement.execute(insertSteps);
             statement.execute(insertIngredients);
-            statement.execute(insertUtensiles);*/
+            statement.execute(insertUtensiles);
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+
+        int recipeID = getID("recipes", name);
+        String recipesIngredients = "INSERT INTO \"Recipes_Ingredients\" (recipe_id, ingredient_id, amount, unit) VALUES ";
+        String recipesUtensiles;
+        String recipesSteps;
+        // Recipe_Ingredient
+        for (int i = 0; i <= ingredients.size() - 1; i++) {
+            int ingredientId = getID("ingredients", ingredients.get(i));
+            recipesIngredients += "(\"recipeID\", \"ingredients\", 1, \"test\")";
+            if (i != ingredients.size() - 1) {
+                recipesIngredients += ", ";
+            } else {
+                recipesIngredients += ";";
+            }
+        }
+
+        System.out.println(recipesIngredients);
+
+        try (var statement = this.connection.createStatement()) {
+            statement.execute(recipesIngredients);
             return true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());
@@ -104,15 +158,27 @@ public class DB {
         }
     }
 
-    public ArrayList<Object> selectRecipe(String argument, String filter) {
+    public ArrayList<Object> getRecipeList(String argument, String filter, String sort, boolean ASC) {
+        String order;
+        String whereStatement = "WHERE " + argument + " = \"" + filter + "\" ";
         try {
-            String query = "SELECT * FROM Recipes WHERE \"" + argument + "\" = \"" + filter + "\";";
+            if (ASC) {
+                order = "ASC";
+            } else {
+                order = "DESC";
+            }
+
+            if (argument.equals("") || filter.equals("")) {
+                whereStatement = "";
+            }
+
+            String query = "SELECT * FROM Recipes " + whereStatement + "ORDER BY \"" + sort + "\" " + order + ";";
             ArrayList<Object> result = new ArrayList<Object>();
-            Statement stmt = connection.createStatement();
+            Statement stmt = this.connection.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
-                result.add(rs.getString("name"));
                 result.add(rs.getInt("id"));
+                result.add(rs.getString("name"));
             }
             return result;
         } catch (SQLException e) {
@@ -130,6 +196,7 @@ public class DB {
             while (rs.next()) {
                 result.add(rs.getString("name"));
                 result.add(rs.getInt("id"));
+                result.add(rs.getInt("personAmount"));
             }
             return result;
         } catch (SQLException e) {
@@ -137,4 +204,46 @@ public class DB {
             return null;
         }
     }
+
+    public boolean updateData(String table, String argument, String filter, String attribute, String value) {
+        try {
+            String query = "UPDATE " + table + " SET " + attribute + " = \"" + value + "\" WHERE " + argument + " = " + filter + ";";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.execute();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteData(String table, String argument, String filter) {
+        try {
+            String query = "DELETE FROM " + table + " WHERE " + argument + " = " + filter + ";";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.execute();
+            statement.close();
+            return true;
+        } catch (SQLException e) {
+            // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public int getID(String table, String name) {
+        try {
+            String query = "SELECT * FROM \"" + table + "\" WHERE \"name\" = " + "\"" + name + "\"" + ";";
+            Statement stmt = this.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            return rs.getInt("id");
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return 0;
+        }
+    }
+
 }
