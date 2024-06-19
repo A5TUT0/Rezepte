@@ -86,7 +86,7 @@ public class DB {
         return true;
     }
     
-   public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
+    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
         String insertRecipe = "INSERT INTO \"Recipes\" (\"name\", \"duration\", \"personAmount\") VALUES (\""+ name + "\", \"" + duration+ "\", \"" + personAmount + "\");";
         /*String insertSteps = "";
         String insertIngredients = "";
@@ -103,19 +103,20 @@ public class DB {
         }
     }
    
-   public ArrayList<Object> getRecipeList(String argument, String filter, String sort, boolean ASC) {
-       String order;
-       String whereStatement = "WHERE " + argument + " = " + filter + " ";
-       try{
-           if(ASC == true) {
-               order= "ASC";
-           } else {
-               order = "DESC";
-           }
-           
-           if(argument.equals("") || filter.equals("")) {
-               whereStatement = "";
-           }
+    public ArrayList<Object> getRecipeList(String argument, String filter, String sort, boolean ASC) {
+        String order;
+        String whereStatement = "WHERE " + argument + " = " + filter + " ";
+        try{
+            if(ASC == true) {
+                order= "ASC";
+            } else {
+                order = "DESC";
+            }
+
+            if(argument.equals("") || filter.equals("")) {
+                whereStatement = "";
+            }
+            
             String query = "SELECT * FROM Recipes " + whereStatement + "ORDER BY \"" + sort + "\" " + order + ";";
             ArrayList<Object> result = new ArrayList<Object>();
             Statement stmt = this.connection.createStatement();
@@ -131,8 +132,8 @@ public class DB {
         }
     }
    
-   public ArrayList<Object> getRecipeData(int id) {
-       try{
+    public ArrayList<Object> getRecipeData(int id) {
+        try{
             String query = "SELECT * FROM Recipes as r JOIN Recipes_Ingredients as ri on r.id = ri.recipe_id JOIN Utensiles_Recipes as ur on r.id = ur.recipe_id JOIN Steps_Recipes as sr on r.id = sr.recipe_id JOIN Steps as s on s.id = sr.step_id JOIN Utensiles as u on u.id = ur.utensile_id JOIN Ingredients as i on i.id = ri.ingredient_id WHERE r.id = " + id + ";";
             ArrayList<Object> result = new ArrayList<Object>();
             Statement stmt = connection.createStatement();
@@ -149,31 +150,31 @@ public class DB {
         }
    }
    
-   public boolean updateData(String table, String argument, String filter, String attribute, String value){
-       try {
-           String query = "UPDATE " + table + " SET " + attribute + " = \"" + value + "\" WHERE " + argument + " = " + filter + ";";
-           PreparedStatement statement = connection.prepareStatement(query);
-           statement.execute();
-           statement.close();
-           return true;
-       } catch(SQLException e) {
-           // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
-           System.err.println(e.getMessage());
-           return false;
-       }
+    public boolean updateData(String table, String argument, String filter, String attribute, String value){
+        try {
+            String query = "UPDATE " + table + " SET " + attribute + " = \"" + value + "\" WHERE " + argument + " = " + filter + ";";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.execute();
+            statement.close();
+            return true;
+        } catch(SQLException e) {
+            // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
+            System.err.println(e.getMessage());
+            return false;
+        }
    }
    
-   public boolean deleteData(String table, String argument, String filter) {
-       try{
-           String query = "DELETE FROM " + table + " WHERE " + argument + " = " + filter + ";";
-           PreparedStatement statement = connection.prepareStatement(query);
-           statement.execute();
-           statement.close();
-           return true;
-       } catch(SQLException e) {
-           // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
-           System.err.println(e.getMessage());
-           return false;
-       }
-   }
+    public boolean deleteData(String table, String argument, String filter) {
+        try{
+            String query = "DELETE FROM " + table + " WHERE " + argument + " = " + filter + ";";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.execute();
+            statement.close();
+            return true;
+        } catch(SQLException e) {
+            // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
+            System.err.println(e.getMessage());
+            return false;
+        }
+    }
 }
