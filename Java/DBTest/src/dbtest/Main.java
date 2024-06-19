@@ -22,5 +22,7 @@ public class Main {
         //db.addRecipe("Wasser", ingredients, utensiles, steps, 0, 1);
         System.out.println("getList" + db.getRecipeList("", "", "id", true));
         System.out.println("getData" + db.getRecipeData(1));
+        System.out.println("update" + db.updateData("recipes", "id", "4", "name", "Rice"));
+        System.out.println("delete" + db.deleteData("recipes", "id", "4"));
     }
 }

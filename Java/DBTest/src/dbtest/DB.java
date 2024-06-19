@@ -149,7 +149,31 @@ public class DB {
         }
    }
    
-   public boolean updateData(String argument, String filter, String attribute, String value){
-       return true;
+   public boolean updateData(String table, String argument, String filter, String attribute, String value){
+       try {
+           String query = "UPDATE " + table + " SET " + attribute + " = \"" + value + "\" WHERE " + argument + " = " + filter + ";";
+           PreparedStatement statement = connection.prepareStatement(query);
+           statement.execute();
+           statement.close();
+           return true;
+       } catch(SQLException e) {
+           // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
+           System.err.println(e.getMessage());
+           return false;
+       }
+   }
+   
+   public boolean deleteData(String table, String argument, String filter) {
+       try{
+           String query = "DELETE FROM " + table + " WHERE " + argument + " = " + filter + ";";
+           PreparedStatement statement = connection.prepareStatement(query);
+           statement.execute();
+           statement.close();
+           return true;
+       } catch(SQLException e) {
+           // For the error "The database file is locked (database is locked)": Close the SQLiteBrowser
+           System.err.println(e.getMessage());
+           return false;
+       }
    }
 }
