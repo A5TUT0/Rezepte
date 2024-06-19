@@ -2,6 +2,7 @@ package Recipies;
 
 import Database.DB; // Importiert die DB-Klasse
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Recipies {
 
@@ -9,13 +10,14 @@ public class Recipies {
     private int id;
     private String name;
     private String description;
-    private ArrayList<Ingredient> ingredients;
+    private ArrayList<HashMap<String, String>> ingredients; // Liste der Zutaten als HashMap
     private int duration; // in Minuten
     private int persons;
     private static DB database = new DB(); // Initialisiert die Verbindung zur Datenbank
     private static ArrayList<Recipies> recipesDatabase = new ArrayList<>();
 
-    public Recipies(String name, String description, int duration, int persons, ArrayList<Ingredient> ingredients) {
+    // Konstruktor zur Initialisierung eines Rezepts
+    public Recipies(String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
         this.id = ++autoIncrementId;
         this.name = name;
         this.description = description;
@@ -24,13 +26,14 @@ public class Recipies {
         this.ingredients = new ArrayList<>(ingredients);
     }
 
-    public static void insert(String name, String description, int duration, int persons, ArrayList<Ingredient> ingredients) {
+    // Methode zum Einfügen eines neuen Rezepts in die Datenbank
+    public static void insert(String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
         Recipies newRecipe = new Recipies(name, description, duration, persons, ingredients);
 
         // Hier müssen wir die Zutaten in eine Liste von Zutatennamen konvertieren
         ArrayList<String> ingredientNames = new ArrayList<>();
-        for (Ingredient ingredient : ingredients) {
-            ingredientNames.add(ingredient.getName());
+        for (HashMap<String, String> ingredient : ingredients) {
+            ingredientNames.add(ingredient.get("name"));
         }
 
         try {
@@ -46,6 +49,7 @@ public class Recipies {
         }
     }
 
+    // Methode zum Löschen eines Rezepts aus der Datenbank
     public static void delete(int id) {
         boolean success = database.deleteData("Recipes", "id", String.valueOf(id));
         if (success) {
@@ -55,7 +59,8 @@ public class Recipies {
         }
     }
 
-    public static void replace(int id, String name, String description, int duration, int persons, ArrayList<Ingredient> ingredients) {
+    // Methode zum Ersetzen eines vorhandenen Rezepts in der Datenbank
+    public static void replace(int id, String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
         Recipies recipe = recipesDatabase.stream().filter(r -> r.id == id).findFirst().orElse(null);
         if (recipe != null) {
             recipe.name = name;
@@ -66,8 +71,8 @@ public class Recipies {
 
             // Hier müssen wir die Zutaten in eine Liste von Zutatennamen konvertieren
             ArrayList<String> ingredientNames = new ArrayList<>();
-            for (Ingredient ingredient : ingredients) {
-                ingredientNames.add(ingredient.getName());
+            for (HashMap<String, String> ingredient : ingredients) {
+                ingredientNames.add(ingredient.get("name"));
             }
 
             // Wir aktualisieren das Rezept in der Datenbank
@@ -81,6 +86,7 @@ public class Recipies {
         }
     }
 
+    // Methode zum Filtern von Rezepten nach Zutaten
     public static void filter(ArrayList<String> ingredients) {
         ArrayList<Object> recipes = database.getRecipeList("", "", "id", true);
         for (Object recipe : recipes) {
@@ -88,6 +94,7 @@ public class Recipies {
         }
     }
 
+    // Methode zum Suchen eines Rezepts nach Namen
     public static void search(String name) {
         ArrayList<Object> recipes = database.getRecipeList("name", name, "id", true);
         for (Object recipe : recipes) {
@@ -95,7 +102,7 @@ public class Recipies {
         }
     }
 
-    // Beim Sortieren können wir zwischen "id" oder "name" wählen & aufsteigend(True) oder absteigend(False).
+    // Beim Sortieren können wir zwischen "id" oder "name" wählen & aufsteigend(True) oder absteigend(False)
     public static void sort(String sortCriteria, boolean ascending) {
         ArrayList<Object> recipes = database.getRecipeList("", "", sortCriteria, ascending);
         for (Object recipe : recipes) {
@@ -103,6 +110,16 @@ public class Recipies {
         }
     }
 
+    // Diese Methode erstellt eine HashMap, die eine Zutat darstellt.
+    public static HashMap<String, String> createIngredient(String name, String quantity, String alternative) {
+        HashMap<String, String> ingredient = new HashMap<>();
+        ingredient.put("name", name);
+        ingredient.put("quantity", quantity);
+        ingredient.put("alternative", alternative);
+        return ingredient;
+    }
+
+    // Überschreiben der toString-Methode zur Darstellung eines Rezepts als String
     @Override
     public String toString() {
         return "Recipies{"
