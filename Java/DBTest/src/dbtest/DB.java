@@ -85,14 +85,17 @@ public class DB {
         }
         return true;
     }
-    
-    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<ArrayList<String>> steps, int duration, int personAmount) {
+    /*Later JDOC: 
+        Steps: [name, Description]
+    Ingredients: [name, amount, unit]
+    */
+    public boolean addRecipe(String name, ArrayList<ArrayList<Object>> ingredients, ArrayList<String> utensiles, ArrayList<ArrayList<String>> steps, int duration, int personAmount) {
         String ingredientsValues =  "VALUES ";
         String utensilesValues =  "VALUES ";
         String stepValues =  "VALUES ";
         // Ingredients
         for(int i = 0; i <= ingredients.size() - 1; i++) {
-            ingredientsValues += "(\""+ ingredients.get(i) +"\")";
+            ingredientsValues += "(\""+ ingredients.get(i).get(0) +"\")";
             if(i != ingredients.size() - 1) {
                 ingredientsValues += ", ";
             } else {
@@ -133,12 +136,12 @@ public class DB {
         
         int recipeID = getID("recipes", name);
         String recipesIngredients = "INSERT INTO \"Recipes_Ingredients\" (recipe_id, ingredient_id, amount, unit) VALUES ";
-        String recipesUtensiles;
-        String recipesSteps;
+        String recipesUtensiles = "INSERT INTO \"Utensiles_Recipes\" (recipe_id, utensile_id) VALUES ";
+        String recipesSteps = "INSERT INTO \"Steps_Recipes\" (recipe_id, step_id) VALUES ";
         // Recipe_Ingredient
         for(int i = 0; i <= ingredients.size() - 1; i++) {
-            int ingredientId = getID("ingredients", ingredients.get(i));
-            recipesIngredients += "(\"recipeID\", \"ingredients\", 1, \"test\")";
+            int ingredientId = getID("ingredients", ingredients.get(i).get(0).toString());
+            recipesIngredients += "(\"" + recipeID + "\", \"" + ingredientId +"\", " + ingredients.get(i).get(1) + ", \""  + ingredients.get(i).get(2) + "\")";
             if(i != ingredients.size() - 1) {
                 recipesIngredients += ", ";
             } else {
@@ -146,10 +149,34 @@ public class DB {
             }
         }
         
-        System.out.println(recipesIngredients);
+        // Recipe_Utensiles
+        for(int i = 0; i <= utensiles.size() - 1; i++) {
+            int utensilesId = getID("utensiles", utensiles.get(i));
+            recipesUtensiles += "(\"" + recipeID + "\", \"" + utensilesId +"\")";
+            if(i != utensiles.size() - 1) {
+                recipesUtensiles += ", ";
+            } else {
+                recipesUtensiles += ";";
+            }
+        }
         
+        for(int i = 0; i <= steps.size() - 1; i++) {
+            int stepId = getID("steps", steps.get(i).get(0));
+            recipesSteps += "(\"" + recipeID + "\", \"" + stepId +"\")";
+            if(i != steps.size() - 1) {
+                recipesSteps += ", ";
+            } else {
+                recipesSteps += ";";
+            }
+        }
+        
+        System.out.println(recipesIngredients);
+        System.out.println(recipesUtensiles);
+        System.out.println(recipesSteps);
         try (var statement = this.connection.createStatement()) {
             statement.execute(recipesIngredients);
+            statement.execute(recipesUtensiles);
+            statement.execute(recipesSteps);
             return true;
         } catch (SQLException e) {
             System.err.println(e.getMessage());

@@ -13,7 +13,9 @@ import java.util.ArrayList;
 public class Main {
     public static void main(String args[]) {
         DB db = new DB();
-        ArrayList<String> ingredients = new ArrayList();
+        ArrayList<ArrayList<Object>> ingredients = new ArrayList();
+        ArrayList<Object> ingredient1 = new ArrayList();
+        ArrayList<Object> ingredient2 = new ArrayList();
         ArrayList<String> utensiles = new ArrayList();
         ArrayList<ArrayList<String>> steps = new ArrayList<>();
         ArrayList<String> step1 = new ArrayList();
@@ -27,8 +29,14 @@ public class Main {
         steps.add(step1);
         steps.add(step2);
         // Ingredients
-        ingredients.add("Wasser");
-        ingredients.add("Pizzagewürz");
+        ingredient1.add("Wasser");
+        ingredient1.add(3);
+        ingredient1.add("dl");
+        ingredient2.add("Pizzagewürz");
+        ingredient2.add(100);
+        ingredient2.add("g");
+        ingredients.add(ingredient1);
+        ingredients.add(ingredient2);
         
         // Untensiles
         utensiles.add("Glas");
