@@ -93,7 +93,7 @@ public class DB {
         // Ingredients
         for(int i = 0; i <= ingredients.size() - 1; i++) {
             ingredientsValues += "(\""+ ingredients.get(i) +"\")";
-            if(i != ingredients.size() -1) {
+            if(i != ingredients.size() - 1) {
                 ingredientsValues += ", ";
             } else {
                 ingredientsValues += ";";
@@ -103,7 +103,7 @@ public class DB {
         // Utensiles
         for(int i = 0; i <= utensiles.size() - 1; i++) {
             utensilesValues += "(\""+ utensiles.get(i) +"\")";
-            if(i != steps.size() -1) {
+            if(i != steps.size() - 1) {
                 utensilesValues += ", ";
             } else {
                 utensilesValues += ";";
@@ -111,7 +111,7 @@ public class DB {
         } // Steps
         for(int i = 0; i <= steps.size() - 1; i++) {
             stepValues += "(\""+ steps.get(i).get(0) +"\", \""+ steps.get(i).get(1) +"\")";
-            if(i != steps.size() -1) {
+            if(i != steps.size() - 1) {
                 stepValues += ", ";
             } else {
                 stepValues += ";";
@@ -132,13 +132,28 @@ public class DB {
         }
         
         int recipeID = getID("recipes", name);
-        String recipesIngredients = "INSERT INTO \"Recipes_Ingredients\" (recipe_id, ingredient_id) VALUES ";
+        String recipesIngredients = "INSERT INTO \"Recipes_Ingredients\" (recipe_id, ingredient_id, amount, unit) VALUES ";
         String recipesUtensiles;
         String recipesSteps;
         // Recipe_Ingredient
         for(int i = 0; i <= ingredients.size() - 1; i++) {
             int ingredientId = getID("ingredients", ingredients.get(i));
-            recipesIngredients += "INSERT "
+            recipesIngredients += "(\"recipeID\", \"ingredients\", 1, \"test\")";
+            if(i != ingredients.size() - 1) {
+                recipesIngredients += ", ";
+            } else {
+                recipesIngredients += ";";
+            }
+        }
+        
+        System.out.println(recipesIngredients);
+        
+        try (var statement = this.connection.createStatement()) {
+            statement.execute(recipesIngredients);
+            return true;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+            return false;
         }
     }
    
