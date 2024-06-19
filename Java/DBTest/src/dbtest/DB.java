@@ -34,20 +34,20 @@ public class DB {
     private boolean createDBStructure() {
         String recipeTable = "CREATE TABLE IF NOT EXISTS 'Recipes' ("
                 + "	'id' INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "	'name' text NOT NULL,"
+                + "	'name' text NOT NULL UNIQUE,"
                 + "	'duration' INTEGER,"
                 + "	'personAmount' INTEGER"
                 + ");";
         String ingredientsTable = "create table if not EXISTS \"Ingredients\" ("
-                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
+                + "	\"id\" INTEGER not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null"
                 + ");";
         String utensilesTable = "create table if not exists \"Utensiles\" ("
-                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
+                + "	\"id\" INTEGER not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null"
                 + ");";
         String stepsTable = "create table if not exists \"Steps\" ("
-                + "	\"id\" int not NULL PRIMARY KEY AUTOINCREMENT,"
+                + "	\"id\" INTEGER not NULL PRIMARY KEY AUTOINCREMENT,"
                 + "	\"name\" varchar(30) not null,"
                 + "	\"description\" varchar(500)"
                 + ");";
@@ -86,28 +86,67 @@ public class DB {
         return true;
     }
     
-    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<String> Steps, int duration, int personAmount) {
+    public boolean addRecipe(String name, ArrayList<String> ingredients, ArrayList<String> utensiles, ArrayList<ArrayList<String>> steps, int duration, int personAmount) {
+        String ingredientsValues =  "VALUES ";
+        String utensilesValues =  "VALUES ";
+        String stepValues =  "VALUES ";
+        // Ingredients
+        for(int i = 0; i <= ingredients.size() - 1; i++) {
+            ingredientsValues += "(\""+ ingredients.get(i) +"\")";
+            if(i != ingredients.size() -1) {
+                ingredientsValues += ", ";
+            } else {
+                ingredientsValues += ";";
+            }
+        }
+        
+        // Utensiles
+        for(int i = 0; i <= utensiles.size() - 1; i++) {
+            utensilesValues += "(\""+ utensiles.get(i) +"\")";
+            if(i != steps.size() -1) {
+                utensilesValues += ", ";
+            } else {
+                utensilesValues += ";";
+            }
+        } // Steps
+        for(int i = 0; i <= steps.size() - 1; i++) {
+            stepValues += "(\""+ steps.get(i).get(0) +"\", \""+ steps.get(i).get(1) +"\")";
+            if(i != steps.size() -1) {
+                stepValues += ", ";
+            } else {
+                stepValues += ";";
+            }
+        }
         String insertRecipe = "INSERT INTO \"Recipes\" (\"name\", \"duration\", \"personAmount\") VALUES (\""+ name + "\", \"" + duration+ "\", \"" + personAmount + "\");";
-        /*String insertSteps = "";
-        String insertIngredients = "";
-        String insertUtensiles = "";*/
+        String insertIngredients = "INSERT INTO \"Ingredients\" (\"name\") " + ingredientsValues;
+        String insertUtensiles = "INSERT INTO \"Utensiles\" (\"name\") " + utensilesValues;
+        String insertSteps = "INSERT INTO \"Steps\" (\"name\", \"description\") " + stepValues;
         try (var statement = this.connection.createStatement()) {
             statement.execute(insertRecipe);
-            /*statement.execute(insertSteps);
+            statement.execute(insertSteps);
             statement.execute(insertIngredients);
-            statement.execute(insertUtensiles);*/
-            return true;
+            statement.execute(insertUtensiles);
         } catch (SQLException e) {
             System.err.println(e.getMessage());
             return false;
+        }
+        
+        int recipeID = getID("recipes", name);
+        String recipesIngredients = "INSERT INTO \"Recipes_Ingredients\" (recipe_id, ingredient_id) VALUES ";
+        String recipesUtensiles;
+        String recipesSteps;
+        // Recipe_Ingredient
+        for(int i = 0; i <= ingredients.size() - 1; i++) {
+            int ingredientId = getID("ingredients", ingredients.get(i));
+            recipesIngredients += "INSERT "
         }
     }
    
     public ArrayList<Object> getRecipeList(String argument, String filter, String sort, boolean ASC) {
         String order;
-        String whereStatement = "WHERE " + argument + " = " + filter + " ";
+        String whereStatement = "WHERE " + argument + " = \"" + filter + "\" ";
         try{
-            if(ASC == true) {
+            if(ASC) {
                 order= "ASC";
             } else {
                 order = "DESC";
@@ -123,7 +162,7 @@ public class DB {
             ResultSet rs = stmt.executeQuery(query);
             while(rs.next()) {
                 result.add(rs.getInt("id"));
-                result.add(rs.getString("name"));
+                result.add(rs.getString("name")); 
             }
             return result;
         } catch(SQLException e) {
@@ -177,4 +216,19 @@ public class DB {
             return false;
         }
     }
+    
+    public int getID(String table, String name) {
+        try{           
+            String query = "SELECT * FROM \"" + table + "\" WHERE \"name\" = " + "\"" + name + "\"" + ";";
+            Statement stmt = this.connection.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+  
+            return rs.getInt("id");
+        } catch(SQLException e) {
+            System.err.println(e.getMessage());
+            return 0;
+        }       
+    } 
+        
+    
 }
