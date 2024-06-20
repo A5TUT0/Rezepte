@@ -30,15 +30,20 @@ public class Recipies {
     public static void insert(String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
         Recipies newRecipe = new Recipies(name, description, duration, persons, ingredients);
 
-        // Hier müssen wir die Zutaten in eine Liste von Zutatennamen konvertieren
-        ArrayList<String> ingredientNames = new ArrayList<>();
+        ArrayList<ArrayList<Object>> formattedIngredients = new ArrayList<>();
         for (HashMap<String, String> ingredient : ingredients) {
-            ingredientNames.add(ingredient.get("name"));
+            ArrayList<Object> formattedIngredient = new ArrayList<>();
+            formattedIngredient.add(ingredient.get("name"));
+            formattedIngredient.add(ingredient.get("quantity"));
+            formattedIngredient.add(ingredient.get("alternative"));
+            formattedIngredients.add(formattedIngredient);
         }
 
+        ArrayList<String> utensiles = new ArrayList<>(); // Lista de utensilios, ajustar según sea necesario
+        ArrayList<ArrayList<String>> steps = new ArrayList<>(); // Lista de pasos, ajustar según sea necesario
+
         try {
-            // Wir fügen das Rezept in die Datenbank ein
-            boolean success = database.addRecipe(name, ingredientNames, new ArrayList<>(), new ArrayList<>(), duration, persons);
+            boolean success = database.addRecipe(name, formattedIngredients, utensiles, steps, duration, persons);
             if (success) {
                 recipesDatabase.add(newRecipe);
             } else {
