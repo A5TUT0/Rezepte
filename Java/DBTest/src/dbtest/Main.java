@@ -41,7 +41,7 @@ public class Main {
         // Untensiles
         utensiles.add("Glas");
         utensiles.add("Wasserhahn");
-        db.addRecipe("Pizza Wasser", ingredients, utensiles, steps, 0, 1);
+        db.addRecipe("HAllo", ingredients, utensiles, steps, 0, 1);
         /*System.out.println("getList" + db.getRecipeList("", "", "id", true));
         System.out.println("getData" + db.getRecipeData(1));
         System.out.println("update" + db.updateData("recipes", "id", "949184", "name", "Rice"));

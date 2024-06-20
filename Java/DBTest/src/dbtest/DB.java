@@ -31,7 +31,7 @@ public class DB {
         return true;
     }
     
-    private boolean createDBStructure() {
+    public boolean createDBStructure() {
         String recipeTable = "CREATE TABLE IF NOT EXISTS 'Recipes' ("
                 + "	'id' INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "	'name' text NOT NULL UNIQUE,"

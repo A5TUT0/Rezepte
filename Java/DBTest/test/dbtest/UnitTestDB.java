@@ -1,12 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit5TestClass.java to edit this template
- */
-import dbtest.DB;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+package dbtest;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -15,19 +7,29 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- * @author AST
- */
-public class DBTest {
+import java.io.File;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+public class UnitTestDB {
+
     private DB db;
 
-    @Before
+    @BeforeAll
+    public static void setUpClass() {
+    }
+
+    @AfterAll
+    public static void tearDownClass() {
+       
+    }
+
+    @BeforeEach
     public void setUp() {
         db = new DB();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         try {
             if (db.connection != null) {
@@ -44,12 +46,12 @@ public class DBTest {
 
     @Test
     public void testConnectDatabase() {
-        assertNotNull("Connection should not be null", db.connection);
+        assertNotNull(db.connection, "Connection should not be null");
     }
 
     @Test
     public void testCreateDBStructure() {
-        assertTrue("Database structure should be created", db.createDBStructure());
+        assertTrue(db.createDBStructure(), "Database structure should be created");
     }
 
     @Test
@@ -71,13 +73,14 @@ public class DBTest {
         steps.add(step);
 
         boolean result = db.addRecipe("Test Recipe", ingredients, utensils, steps, 30, 4);
-        assertTrue("Recipe should be added successfully", result);
+        assertTrue(result, "Recipe should be added successfully");
     }
 
     @Test
     public void testGetID() {
         db.addRecipe("Test Recipe", new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), 30, 4);
         int id = db.getID("Recipes", "Test Recipe");
-        assertTrue("ID should be greater than 0", id > 0);
+        assertTrue(id > 0, "ID should be greater than 0");
     }
 }
+    
