@@ -8,10 +8,11 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author Adri Csbe
+ * @author Adri
  */
 public class RezeptErstellen extends javax.swing.JFrame {
     private MainMenu MainMenu = null;
+    DB db = new DB();
     /**
      * Creates new form EroeffnungsFrame
      */
@@ -100,6 +101,11 @@ public class RezeptErstellen extends javax.swing.JFrame {
         jTextField1.setFont(new java.awt.Font("Calibri", 0, 24)); // NOI18N
         jTextField1.setText("Eingabe...");
         jTextField1.setPreferredSize(new java.awt.Dimension(370, 50));
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton10.setBackground(new java.awt.Color(26, 35, 126));
         jButton10.setFont(new java.awt.Font("Calibri", 1, 24)); // NOI18N
@@ -289,7 +295,7 @@ public class RezeptErstellen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -368,6 +374,10 @@ public class RezeptErstellen extends javax.swing.JFrame {
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField6ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
