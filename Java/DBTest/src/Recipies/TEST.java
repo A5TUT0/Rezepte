@@ -1,23 +1,22 @@
 package Recipies;
 
-import Database.DB; // Importiert die DB-Klasse
+import dbtest.DB; // Importiert die DB-Klasse
 import java.util.ArrayList;
-import java.util.HashMap;
 
-public class Recipies {
+public class TEST {
 
     private static int autoIncrementId = 0; // Automatisch inkrementierende ID für Rezepte
     private int id;
     private String name;
     private String description;
-    private ArrayList<HashMap<String, String>> ingredients; // Liste der Zutaten als HashMap
+    private ArrayList<ArrayList<String>> ingredients; // Lista de ingredientes como ArrayList
     private int duration; // in Minuten
     private int persons;
-    private static DB database = new DB(); // Initialisiert die Verbindung zur Datenbank
-    private static ArrayList<Recipies> recipesDatabase = new ArrayList<>();
+    private static DB database = DB.getInstance(); // Initialisiert die Verbindung zur Datenbank
+    private static ArrayList<TEST> recipesDatabase = new ArrayList<>();
 
     // Konstruktor zur Initialisierung eines Rezepts
-    public Recipies(String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
+    public TEST(String name, String description, int duration, int persons, ArrayList<ArrayList<String>> ingredients) {
         this.id = ++autoIncrementId;
         this.name = name;
         this.description = description;
@@ -27,15 +26,12 @@ public class Recipies {
     }
 
     // Methode zum Einfügen eines neuen Rezepts in die Datenbank
-    public static void insert(String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
-        Recipies newRecipe = new Recipies(name, description, duration, persons, ingredients);
+    public static void insert(String name, String description, int duration, int persons, ArrayList<ArrayList<String>> ingredients) {
+        TEST newRecipe = new TEST(name, description, duration, persons, ingredients);
 
         ArrayList<ArrayList<Object>> formattedIngredients = new ArrayList<>();
-        for (HashMap<String, String> ingredient : ingredients) {
-            ArrayList<Object> formattedIngredient = new ArrayList<>();
-            formattedIngredient.add(ingredient.get("name"));
-            formattedIngredient.add(ingredient.get("quantity"));
-            formattedIngredient.add(ingredient.get("alternative"));
+        for (ArrayList<String> ingredient : ingredients) {
+            ArrayList<Object> formattedIngredient = new ArrayList<>(ingredient);
             formattedIngredients.add(formattedIngredient);
         }
 
@@ -46,6 +42,7 @@ public class Recipies {
             boolean success = database.addRecipe(name, formattedIngredients, utensiles, steps, duration, persons);
             if (success) {
                 recipesDatabase.add(newRecipe);
+                System.out.println("Receta " + name + " insertada correctamente.");
             } else {
                 System.err.println("Fehler beim Einfügen des Rezepts in die Datenbank");
             }
@@ -65,8 +62,8 @@ public class Recipies {
     }
 
     // Methode zum Ersetzen eines vorhandenen Rezepts in der Datenbank
-    public static void replace(int id, String name, String description, int duration, int persons, ArrayList<HashMap<String, String>> ingredients) {
-        Recipies recipe = recipesDatabase.stream().filter(r -> r.id == id).findFirst().orElse(null);
+    public static void replace(int id, String name, String description, int duration, int persons, ArrayList<ArrayList<String>> ingredients) {
+        TEST recipe = recipesDatabase.stream().filter(r -> r.id == id).findFirst().orElse(null);
         if (recipe != null) {
             recipe.name = name;
             recipe.description = description;
@@ -75,9 +72,10 @@ public class Recipies {
             recipe.ingredients = new ArrayList<>(ingredients);
 
             // Hier müssen wir die Zutaten in eine Liste von Zutatennamen konvertieren
-            ArrayList<String> ingredientNames = new ArrayList<>();
-            for (HashMap<String, String> ingredient : ingredients) {
-                ingredientNames.add(ingredient.get("name"));
+            ArrayList<ArrayList<Object>> formattedIngredients = new ArrayList<>();
+            for (ArrayList<String> ingredient : ingredients) {
+                ArrayList<Object> formattedIngredient = new ArrayList<>(ingredient);
+                formattedIngredients.add(formattedIngredient);
             }
 
             // Wir aktualisieren das Rezept in der Datenbank
@@ -85,6 +83,10 @@ public class Recipies {
             if (success) {
                 database.updateData("Recipes", "id", String.valueOf(id), "duration", String.valueOf(duration));
                 database.updateData("Recipes", "id", String.valueOf(id), "personAmount", String.valueOf(persons));
+                // Actualizar los ingredientes en la base de datos también
+                for (ArrayList<Object> ingredient : formattedIngredients) {
+                    database.updateData("Ingredients", "name", ingredient.get(0).toString(), "name", ingredient.get(0).toString());
+                }
             } else {
                 System.err.println("Fehler beim Aktualisieren des Rezepts in der Datenbank");
             }
@@ -113,15 +115,6 @@ public class Recipies {
         for (Object recipe : recipes) {
             System.out.println(recipe);
         }
-    }
-
-    // Diese Methode erstellt eine HashMap, die eine Zutat darstellt.
-    public static HashMap<String, String> createIngredient(String name, String quantity, String alternative) {
-        HashMap<String, String> ingredient = new HashMap<>();
-        ingredient.put("name", name);
-        ingredient.put("quantity", quantity);
-        ingredient.put("alternative", alternative);
-        return ingredient;
     }
 
     // Überschreiben der toString-Methode zur Darstellung eines Rezepts als String
