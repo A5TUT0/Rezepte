@@ -7,8 +7,6 @@ package dbtest;
 import java.sql.*;
 import java.util.ArrayList;
 import java.io.FileWriter;
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -280,6 +278,11 @@ public class DB {
             return 0;
         }
     }
+    /**
+     * 
+     * @param fileName
+     * @return 
+     */
   public boolean exportRecipesToCSV(String fileName) {
         String query = "SELECT * FROM Recipes";
         try (FileWriter writer = new FileWriter(fileName);
@@ -289,13 +292,13 @@ public class DB {
             ResultSetMetaData rsmd = rs.getMetaData();
             int columns = rsmd.getColumnCount();
 
-            // Escribir encabezados de columna
+            // Spaltenüberschriften schreiben
             for (int i = 1; i <= columns; i++) {
                 writer.append(rsmd.getColumnName(i)).append(",");
             }
             writer.append("\n");
 
-            // Escribir datos de filas
+            // Zeilendaten schreiben
             while (rs.next()) {
                 for (int i = 1; i <= columns; i++) {
                     writer.append(rs.getString(i)).append(",");

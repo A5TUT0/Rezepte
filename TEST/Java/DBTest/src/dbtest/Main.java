@@ -42,25 +42,5 @@ public class Main {
         } else {
             System.out.println("Error al exportar los datos.");
         }
-/*
-        // Limpiar la tabla Recipes antes de importar los datos
-        boolean clearResult = db.clearRecipesTable();
-        if (clearResult) {
-            System.out.println("Datos de la tabla Recipes eliminados exitosamente.");
-        } else {
-            System.out.println("Error al eliminar los datos de la tabla Recipes.");
-        }
-
-        // Importar los datos desde el archivo CSV
-        boolean importResult = db.importRecipesFromCSV("recipes_export.csv");
-        if (importResult) {
-            System.out.println("Datos importados exitosamente desde recipes_export.csv");
-        } else {
-            System.out.println("Error al importar los datos.");
-        }
-
-        // Cerrar la conexión de la base de datos
-        db.closeConnection();
-*/
     }
 }
