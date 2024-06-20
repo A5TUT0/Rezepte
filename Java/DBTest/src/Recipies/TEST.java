@@ -1,18 +1,23 @@
 package Recipies;
-
+/*
 import dbtest.DB; // Importiert die DB-Klasse
 import java.util.ArrayList;
-
+/*
+*
+* @author Noah Lezama
+*
+*/
+/*
 public class TEST {
 
     private static int autoIncrementId = 0; // Automatisch inkrementierende ID für Rezepte
-    private int id;
+    // private int id;
     private String name;
     private String description;
     private ArrayList<ArrayList<String>> ingredients; // Lista de ingredientes como ArrayList
     private int duration; // in Minuten
     private int persons;
-    private static DB database = DB.getInstance(); // Initialisiert die Verbindung zur Datenbank
+    // private static DB database = DB.getInstance(); // Initialisiert die Verbindung zur Datenbank
     private static ArrayList<TEST> recipesDatabase = new ArrayList<>();
 
     // Konstruktor zur Initialisierung eines Rezepts
@@ -130,3 +135,4 @@ public class TEST {
                 + '}';
     }
 }
+*/
